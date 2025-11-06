@@ -15,33 +15,36 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class HomePage {
 	private static Logger logger = LogManager.getLogger();
 	private WebDriver driver;
+	private Helper helper;
 
 	@FindBy(xpath = "//button[contains(text(),'Get Started')]")
 	WebElement getStartedBtn;
 	@FindBy(xpath = "//a[contains(text(),'Data Structures')]")
 	WebElement dropdownMenu;
 
-	public HomePage(WebDriver driver) {
+	public HomePage(WebDriver driver, Helper helper) {
 		this.driver = driver;
+		this.helper = helper;
 		PageFactory.initElements(driver, this);
 
 	}
 
 	public void homeGetStartedBtn() {
 
-		getStartedBtn.click();
+		helper.clickElement(getStartedBtn);
 
 	}
 
 	public void selectDropDownMenu(String string) {
-		dropdownMenu.click();
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		wait.until(ExpectedConditions.elementToBeClickable(By.linkText("" + string + ""))).click();
+		helper.clickElement(dropdownMenu);
 
+		WebElement dropDownElement = driver.findElement(By.linkText("" + string + ""));
+		helper.clickElement(dropDownElement);
 	}
 
 	public void dataStructuresGetStarted(String module) {
-		driver.findElement(By.xpath("//a[@href='" + module + "']")).click();
+		WebElement dsGetStrt_moduleElement = driver.findElement(By.xpath("//a[@href='" + module + "']"));
+		helper.clickElement(dsGetStrt_moduleElement);
 	}
 
 	public String GetErrorMessageLogIn() {

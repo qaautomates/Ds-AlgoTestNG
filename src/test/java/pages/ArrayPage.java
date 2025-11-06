@@ -22,6 +22,12 @@ public class ArrayPage {
 	WebElement tryHereBtn;
 	@FindBy(xpath = "//button[@type='button']")
 	WebElement runBtn;
+	@FindBy(xpath = "//a[text()='Practice Questions']")
+	WebElement practiceQuestions;
+	@FindBy(className = "cm-def")
+	WebElement question;
+	@FindBy(id = "output")
+	WebElement output;
 
 	public ArrayPage(WebDriver driver, Helper helper) {
 		this.driver = driver;
@@ -34,7 +40,6 @@ public class ArrayPage {
 		logger.info("Clicking try editor for array");
 		helper.clickTryEditor(tryHereBtn);
 	}
-	
 
 	public void arrayClickLink(String string) {
 		logger.info("Clicking submodule link " + string);
@@ -56,25 +61,23 @@ public class ArrayPage {
 	}
 
 	public String getActualOutputForArray() {
-		return helper.readActualOutput();
-	}
 
-	public void moveToPracticeQuestionsPage() {
-		logger.info("Moving to array practice questions page");
-		/*helper.dataStructuresGetStarted("array");
-		helper.clickLink("Arrays in Python");
-		helper.clickLink("Practice Questions");*/
+		String output_Message = helper.readTryEditorAlertMessage();
+		if (output_Message == null) {
+			return output.getText();
+		}
+		return output_Message;
 	}
 
 	public String getAssessmentQuestion() {
-		WebElement question = driver.findElement(By.className("cm-def"));
 		return question.getText();
 	}
 
 	public void moveToPracticeQuestionsEditor(String questionLink) {
 		logger.info("Moving to Practice questions editor for array");
-		moveToPracticeQuestionsPage();
-		//helper.clickLink(questionLink);
+		helper.clickElement(practiceQuestions);
+		WebElement questionLinkElement = driver.findElement(By.xpath("//a[text()='" + questionLink + "']"));
+		helper.clickElement(questionLinkElement);
 	}
 
 	public void clickArraySubmitBtn() {
