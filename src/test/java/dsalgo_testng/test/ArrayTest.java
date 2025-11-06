@@ -17,7 +17,6 @@ public class ArrayTest extends BaseTest {
 
 	LoginPage loginPage;
 	ArrayPage arrayPage;
-	TestContext testContext;
 
 	public ArrayTest() {
 
