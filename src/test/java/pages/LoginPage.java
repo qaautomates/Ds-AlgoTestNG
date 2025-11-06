@@ -8,6 +8,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import utilities.ConfigReader;
+
 import java.io.IOException;
 import java.time.Duration;
 
@@ -17,28 +19,45 @@ public class LoginPage {
 	public WebDriver driver;
 	private Helper helper;
 	
-	@FindBy(linkText = "Sign in") WebElement signIn;
-	@FindBy(name = "username")  WebElement username;
-	@FindBy(name = "password")	WebElement password;
-	@FindBy(xpath = "//input[@type='submit']")  WebElement submitBtn;
+	
+	@FindBy(linkText = "Sign in")
+	WebElement signInLink;
+	@FindBy(name = "username")
+	WebElement uName;
+	@FindBy(name = "password")
+	WebElement pwd;
+	@FindBy(xpath = "//input[@type='submit']")
+	WebElement logInBtn;
 	@FindBy(xpath = "//div[@class='alert alert-primary']") WebElement alertMessage;
-	@FindBy(xpath = "//input[@type='submit']") WebElement loginbtn;
 	@FindBy(xpath = "//a[@href='/logout']") WebElement signOut;
 	@FindBy(xpath= "//div[contains(text(),'Logged out successfully')]") WebElement successMessage;
 	public LoginPage(WebDriver driver, Helper helper) {
+		
 		this.driver = driver;
 		this.helper = helper;
 		PageFactory.initElements(driver,this);
 	}
 	
 	public void clickSignIn() {
-		signIn.click();
+		
+		helper.clickElement(signInLink);
 	}
 	
-	public void login() throws IOException {
-		helper.login();
-		
+	public void loginToPortal() {
+
+		String userNameValue;
+		try {
+			userNameValue = helper.readFromExcel(ConfigReader.getProperty("sheetName"), "TC001", "UserName");
+			String passWordValue = helper.readFromExcel(ConfigReader.getProperty("sheetName"), "TC001", "Password");
+			uName.sendKeys(userNameValue);
+			pwd.sendKeys(passWordValue);
+			logInBtn.click();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
 	}
+
 	
 	public String verifyMessage() {
 		String message =alertMessage.getText();
@@ -46,17 +65,17 @@ public class LoginPage {
 	}
 	
 	public void invalidCredentials(String userName, String passWord) {
-		username.sendKeys(userName);
-		password.sendKeys(passWord);
+		uName.sendKeys(userName);
+		pwd.sendKeys(passWord);
 		
 	}
 
 	public void clickLogin() {
-		loginbtn.click();
+		logInBtn.click();
 	}
 	
 	public void clickHomeGetStartedBtn() {
-		helper.homeGetStartedBtn();
+		homePage.homeGetStartedBtn();
 	}
 	
 	public String readLoginCredentials(String sheet, String testcase_id, String key) throws IOException {
@@ -89,9 +108,9 @@ public class LoginPage {
 	        } catch (Exception e2) {
 	            
 	            try {
-	                message = username.getAttribute("validationMessage");
+	                message = uName.getAttribute("validationMessage");
 	                if (message == null || message.isEmpty()) {
-	                    message = password.getAttribute("validationMessage");
+	                    message = pwd.getAttribute("validationMessage");
 	                }
 	            } catch (Exception e3) {
 	                message = "No message found";
