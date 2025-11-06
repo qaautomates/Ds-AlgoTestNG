@@ -5,17 +5,15 @@ import java.time.Duration;
 import java.util.HashMap;
 
 import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import utilities.ConfigReader;
 import utilities.ExcelSheetHandling;
 
 public class Helper {
@@ -27,27 +25,26 @@ public class Helper {
 		PageFactory.initElements(driver, this);
 	}
 
-	
-
 	public String getTitle() {
 
 		return driver.getTitle();
 
 	}
-	
+
 	public void clickElement(WebElement webElement) {
-		webElement.click();
-	}
 
-	
-	public void clickLink(WebElement link) {
-		driver.findElement(By.xpath("//a[text()='" + link + "']")).click();
-	}
+		int retries = 3;
+		while (retries > 0) {
+			try {
+				webElement.click();
+				break;
+			}
 
-	public String getUrl() {
-
-		return driver.getCurrentUrl();
-
+			catch (StaleElementReferenceException e) {
+				retries--;
+				System.out.println("Retrying due to stale element...");
+			}
+		}
 	}
 
 	public void clickTryEditor(WebElement element) {
@@ -75,15 +72,14 @@ public class Helper {
 
 	}
 
-	public String readActualOutput() {
+	public String readTryEditorAlertMessage() {
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 			wait.until(ExpectedConditions.alertIsPresent());
 			Alert alert = driver.switchTo().alert();
 			return alert.getText();
 		} catch (Exception e) {
-			WebElement output = driver.findElement(By.id("output"));
-			return output.getText();
+			return null;
 		}
 	}
 }
