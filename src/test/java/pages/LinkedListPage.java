@@ -3,40 +3,41 @@ package pages;
 import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class LinkedListPage {
 	private static Logger logger = LogManager.getLogger();
 	private Helper helper;
+	private WebDriver driver;
 	
-	public LinkedListPage(Helper helper) {
+	@FindBy(linkText = "Try here>>>")
+	WebElement tryHereBtn;
+	@FindBy(xpath = "//button[@type='button']")
+	WebElement runBtn;
+	@FindBy(xpath = "//a[text()='Practice Questions']")
+	WebElement practiceQuestions;
+	@FindBy(id = "output")
+	WebElement output;
+	
+	public LinkedListPage(WebDriver driver, Helper helper) {
+		this.driver = driver;
 		this.helper = helper;
-	}
-	
-	public void loginToPortalLinkedList() {
-		helper.homeGetStartedBtn();
-		helper.clickSignIn();
-		helper.login();
-		logger.info("Logged in to DS algo portal for testing Linked List module");
-	}
-	
-	public void linkedListGetStarted() {
-		logger.info("Opening Linked list module page using button");
-		helper.dataStructuresGetStarted("linked-list");
-	}
-	
-	public void selectLinkedListFromDropDown() {
-		logger.info("Opening Linked list module page using dropdown");
-		helper.selectDropDownMenu("Linked List");
+		PageFactory.initElements(driver, this);
 	}
 	
 	public void linkedListClickLink(String string) {
 		logger.info("Clicking sub module link for linked list");
-		helper.clickLink(string);
+		WebElement subModule = driver.findElement(By.xpath("//a[text()='" + string + "']"));
+		helper.clickElement(subModule);
 	}
 	
 	public void clickLinkedListTryEditor() {
 		logger.info("Clicking Try here button for linked list modules");
-		helper.clickTryEditor();
+		helper.clickTryEditor(tryHereBtn);
 	}
 	
 	public void enterLinkedListPythonCode(String sheet, String testcase_id) throws IOException {	
@@ -47,7 +48,7 @@ public class LinkedListPage {
 	
 	public void clickLinkedListRunBtn() {
 		logger.info("Clicking Run button for assessment page");
-		helper.clickRunButton();
+		helper.clickElement(runBtn);
 	}
 	
 	public String readExpectedOutputForLinkedList(String sheet, String testcase_id) throws IOException {
@@ -57,8 +58,11 @@ public class LinkedListPage {
 	}
 	
 	public String getActualOutputForLinkedList() {
-		String actual =  helper.readActualOutput();
-		logger.info("Actual output captured in assessment page: " + actual);
-		return actual;
+		String output_Message = helper.readTryEditorAlertMessage();
+		if (output_Message == null) {
+			return output.getText();
+		}
+		logger.info("Alert message captured in assessment page: " + output_Message);
+		return output_Message;
 	}
 }

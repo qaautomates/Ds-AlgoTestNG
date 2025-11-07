@@ -3,22 +3,18 @@ package baseTest;
 import java.lang.reflect.Method;
 
 import org.testng.Assert;
+import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import pages.Helper;
-import pages.HomePage;
-import pages.LoginPage;
+import pages.BasePage;
 import utilities.ConfigReader;
 import utilities.DriverFactory;
 
 public class BaseTest {
-
-	public Helper helper;
-	public HomePage homePage;
-	public LoginPage loginPage;
+	private static ThreadLocal<BasePage> context = new ThreadLocal<>();
 
 	@BeforeSuite
 	public static void loadConfigProp() {
@@ -32,9 +28,8 @@ public class BaseTest {
 	public void setUp(Method method) {
 		DriverFactory.inItBrowser();
 		DriverFactory.setupBrowser();
-		System.out.println("Base Test SetUp");
-		helper = new Helper(DriverFactory.getDriver());
-		homePage = new HomePage(DriverFactory.getDriver(), helper);
+		Reporter.log("Base Test SetUp");
+		context.set(new BasePage(DriverFactory.getDriver()));
 
 		boolean launchRequired = false;
 		boolean loginRequired = false;
@@ -49,25 +44,30 @@ public class BaseTest {
 				}
 			}
 			if (launchRequired || loginRequired) {
-				homePage.homeGetStartedBtn();
-				Assert.assertEquals(helper.getTitle(), "NumpyNinja");
+				getContext().getHomePage().homeGetStartedBtn();
+				Assert.assertEquals(getContext().getHelper().getTitle(), "NumpyNinja");
+				Reporter.log("Data strucutres home page");
 			}
 			// Perform login if needed
 			if (loginRequired) {
-				loginPage = new LoginPage(DriverFactory.getDriver(), helper);
-				loginPage.clickSignIn();
-				loginPage.loginToPortal();
-
+				getContext().getLoginPage().clickSignIn();
+				getContext().getLoginPage().loginToPortal();
+				Reporter.log("Logged in to data structures home page");
 			}
 		}
 
 	}
+	
+	public BasePage getContext() {
+	        return context.get();
+	}
 
 	@AfterMethod
 	public void tearDown() {
-
 		DriverFactory.quitDriver();
-
+		if(context != null) {
+			context.remove();
+		}
 	}
 
 }

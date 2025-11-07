@@ -13,13 +13,10 @@ import utilities.ConfigReader;
 import java.io.IOException;
 import java.time.Duration;
 
-public class LoginPage {
-
-	
-	public WebDriver driver;
+public class LoginPage {	
+	private WebDriver driver;
 	private Helper helper;
-	
-	
+		
 	@FindBy(linkText = "Sign in")
 	WebElement signInLink;
 	@FindBy(name = "username")
@@ -31,6 +28,7 @@ public class LoginPage {
 	@FindBy(xpath = "//div[@class='alert alert-primary']") WebElement alertMessage;
 	@FindBy(xpath = "//a[@href='/logout']") WebElement signOut;
 	@FindBy(xpath= "//div[contains(text(),'Logged out successfully')]") WebElement successMessage;
+	
 	public LoginPage(WebDriver driver, Helper helper) {
 		
 		this.driver = driver;
@@ -58,7 +56,6 @@ public class LoginPage {
 		}
 	}
 
-	
 	public String verifyMessage() {
 		String message =alertMessage.getText();
 		return message;
@@ -74,17 +71,9 @@ public class LoginPage {
 		logInBtn.click();
 	}
 	
-	public void clickHomeGetStartedBtn() {
-		homePage.homeGetStartedBtn();
-	}
 	
 	public String readLoginCredentials(String sheet, String testcase_id, String key) throws IOException {
 		return helper.readFromExcel(sheet, testcase_id, key);
-	}
-	
-	public void readActualMsg() {
-		
-		helper.readActualOutput();
 	}
 	
 	public String geterrorMsg() {
