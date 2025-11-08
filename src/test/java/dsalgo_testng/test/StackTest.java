@@ -57,7 +57,7 @@ public class StackTest extends BaseTest {
 			{ "Applications", "Applications" }, };
 	}
 
-	@Test(dataProvider = "subModule_TryEditor", groups = {"loginRequired", "stackBackgroud"})
+	@Test(dataProvider = "subModule_TryEditor", groups = {"loginRequired", "stackBackground"})
 	public void verify_TryEditor_Stack_SubModule(String link) {
 
 		stackPage.get().stackClickLink(link);
