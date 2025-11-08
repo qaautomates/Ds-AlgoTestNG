@@ -7,6 +7,7 @@ import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import pages.BasePage;
@@ -25,8 +26,9 @@ public class BaseTest {
 	}
 
 	@BeforeMethod
-	public void setUp(Method method) {
-		DriverFactory.inItBrowser();
+	@Parameters("browser")
+	public void setUp(Method method, String browser) {
+		DriverFactory.inItBrowser(browser);
 		DriverFactory.setupBrowser();
 		Reporter.log("Base Test SetUp");
 		context.set(new BasePage(DriverFactory.getDriver()));

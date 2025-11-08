@@ -33,7 +33,12 @@
 			<version>7.11.0</version>
 			<scope>test</scope>
 		</dependency>
-		
+		<!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-testng -->
+		<dependency>
+    		<groupId>io.qameta.allure</groupId>
+    		<artifactId>allure-testng</artifactId>
+    		<version>2.30.0</version>
+		</dependency>
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna</artifactId>
@@ -51,7 +56,6 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.14.1</version>
 			</plugin>
-
 			<!--
 			https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
 			<plugin>
@@ -64,6 +68,14 @@
 				</suiteXmlFiles>
 				</configuration>
 			</plugin>
+			<plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.12.0</version> <!-- Use the latest stable version -->
+                <configuration>
+                    <reportVersion>2.29.0</reportVersion> <!-- Allure Report version -->
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 </project>
