@@ -7,8 +7,11 @@ import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import io.qameta.allure.Allure;
 import pages.BasePage;
 import utilities.ConfigReader;
 import utilities.DriverFactory;
@@ -25,8 +28,9 @@ public class BaseTest {
 	}
 
 	@BeforeMethod
-	public void setUp(Method method) {
-		DriverFactory.inItBrowser();
+	@Parameters("browser")
+	public void setUp(Method method, @Optional String browser) {
+		DriverFactory.inItBrowser(browser);
 		DriverFactory.setupBrowser();
 		Reporter.log("Base Test SetUp");
 		context.set(new BasePage(DriverFactory.getDriver()));
@@ -55,7 +59,8 @@ public class BaseTest {
 				Reporter.log("Logged in to data structures home page");
 			}
 		}
-
+		// Add browser info as Allure parameter
+        Allure.parameter("Browser", browser);
 	}
 	
 	public BasePage getContext() {

@@ -1,11 +1,9 @@
 package dsalgo_testng.test;
 
 import org.testng.annotations.Test;
-import org.testng.annotations.Test;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import baseTest.BaseTest;
 import pages.RegisterPage;
