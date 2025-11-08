@@ -12,4 +12,15 @@
       <class name="dsalgo_testng.test.LinkedListTest"/>
     </classes>
   </test> <!-- Test -->
+   <test thread-count="2" parallel="methods" name="EdgeTest">
+    <parameter name="browser" value="Edge"/>
+    <classes>
+      <class name="dsalgo_testng.test.ArrayTest"/>
+      <class name="dsalgo_testng.test.TreeTest"/>
+      <class name="dsalgo_testng.test.LoginTest"/>
+      <class name="dsalgo_testng.test.RegistrationTest"/>
+      <class name="dsalgo_testng.test.HomeTest"/>
+      <class name="dsalgo_testng.test.LinkedListTest"/>
+    </classes>
+  </test> <!-- Test -->
 </suite> <!-- Suite -->
