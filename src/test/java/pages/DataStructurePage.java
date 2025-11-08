@@ -2,65 +2,74 @@ package pages;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Reporter;
 
 
 public class DataStructurePage {
 	
-	private static Logger logger = LogManager.getLogger();
 	
+	private WebDriver driver;
 	private Helper helper;
 	
-	@FindBy(linkText ="Sign in" ) WebElement signinBtn;
+	
+	
+	@FindBy(linkText = "Try here>>>")
+	WebElement tryHereBtn;
+	@FindBy(xpath = "//button[@type='button']")
+	WebElement runBtn;
+	@FindBy(xpath = "//a[text()='Practice Questions']")
+	WebElement practiceQuestions;
+	@FindBy(id = "output")
+	WebElement output;
 	
 	public DataStructurePage(WebDriver driver, Helper helper) {
-		
+		this.driver = driver;
 		this.helper =helper;
 		PageFactory.initElements(driver,this);
 	}
-	public void loginToPortal() {
-		helper.homeGetStartedBtn();
-		signinBtn.click();
-		helper.login();
-		logger.info("logged in to DS algo Portal for testing Data Structure-Introduction module");
-	}
-	
-	public void datastructureGetStarted() {
-		logger.info("Opening Data Structure module page using button");
-		helper.dataStructuresGetStarted("data-structures-introduction");
-	}
 	
 	public void datastructureClickLink(String string) {
-		logger.info("Clicking sub module link for Data Structure-Introduction");
-		helper.clickLink(string);
+		Reporter.log("Clicking sub module link for Data Structure-Introduction");
+		WebElement subModule = driver.findElement(By.xpath("//a[text()='" + string + "']"));
+		helper.clickElement(subModule);
 	}
 	
 	public void ClickDataStructureTryEditor() {
-		logger.info("Clicking Try here button for Data Structure-Introduction modules");
-		helper.clickTryEditor();
+		Reporter.log("Clicking Try here button for Data Structure-Introduction modules");
+		helper.clickTryEditor(tryHereBtn);
 	}
 	
-	public void enterDataStructurePythonCode(String sheet,String testcase_id ) throws IOException {
-		logger.info("Entering Python code for Data Structure-Introduction from Excel sheet: {}, TestCase ID: {}", sheet, testcase_id);
-		helper.enterPythonCode(helper.readFromExcel(sheet, testcase_id, "pythonCode"));
+	public void enterDataStructurePythonCode(String sheet,String testId ) throws IOException {
+		Reporter.log("Entering Python code for Data Structure-Introduction from Excel sheet: "
+	            + sheet + ", TestCase ID: " + testId);
+		helper.enterPythonCode(helper.readFromExcel(sheet, testId, "pythonCode"));
 	}
 	
 	public void DataStructureRunBtn() {
-		logger.info("Clicking Run button for assessment page");
-		helper.clickRunButton();
+		Reporter.log("Clicking Run button for assessment page");
+		helper.clickElement(runBtn);
 	}
 	
 	public String readExpectedOutputForDataStructure(String sheet, String testcase_id) throws IOException {
-		logger.info("Read expected output for Queue from Excel ({} - {}): {}", sheet, testcase_id);
+		Reporter.log("Reading expected output for Data Structure from Excel Sheet: " 
+		        + sheet + ", TestCase ID: " + testcase_id);
 		return helper.readFromExcel(sheet, testcase_id, "Result");
 	}
 	
 	public String getActualOutputForDataStructure() {
-		return helper.readActualOutput();
+		String output_Message = helper.readTryEditorAlertMessage();
+		if (output_Message == null) {
+			return output.getText();
+		}
+		return output_Message;
 	}
+	
+	
+	
 }
