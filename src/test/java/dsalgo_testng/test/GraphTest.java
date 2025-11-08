@@ -44,16 +44,16 @@ public class GraphTest extends BaseTest {
 	}
 
 	@Test(dataProvider = "module_link", groups = {"loginRequired", "graphBackground"})
-	public void navigate_SubModules_Graph(String link) {
+	public void navigate_SubModules_Graph(String link, String expected_Title) {
 		graphPage.get().graphClickLink(link);
-		//	Assert.assertEquals(link);
+		Assert.assertEquals(getContext().getHelper().getTitle(), expected_Title);
 		Reporter.log("Navigated to Graph page submodules", true);
 	}
 
 	@DataProvider(name = "module_link", parallel = true)
-	public Object[] moduleLinkData() {
-		return new Object[][] { { "graph" },
-			{ "graph-representations" }, }; 
+	public Object[][] moduleLinkData() {
+		return new Object[][] { { "graph", "Graph" },
+			{ "graph-representations","Graph Representations" }, }; 
 	}
 
 	@Test(dataProvider = "subModule_TryEditor", groups = {"loginRequired", "graphBackground"})
@@ -94,11 +94,11 @@ public class GraphTest extends BaseTest {
 	}
 
 	@Test(dataProvider = "module_link", groups = {"loginRequired", "graphBackground"})
-	public void verify_Navigate_PracticeQns(String link) {
+	public void verify_Navigate_PracticeQns(String link, String expected_Title) {
 
 		graphPage.get().graphClickLink(link);
 		graphPage.get().graphClickLinkpractice("Practice Questions");
-		//Assert.assertEquals(helper.getTitle(), "Practice Questions");
+		Assert.assertEquals(getContext().getHelper().getTitle(), "Practice Questions");
 		Reporter.log("Navigated to Practice question page for Graph submodules", true);
 	}
 
