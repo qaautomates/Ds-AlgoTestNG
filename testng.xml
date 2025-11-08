@@ -21,6 +21,8 @@
       <class name="dsalgo_testng.test.RegistrationTest"/>
       <class name="dsalgo_testng.test.HomeTest"/>
       <class name="dsalgo_testng.test.LinkedListTest"/>
+      <class name="dsalgo_testng.test.StackTest"/>
+      <class name="dsalgo_testng.test.GraphTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
