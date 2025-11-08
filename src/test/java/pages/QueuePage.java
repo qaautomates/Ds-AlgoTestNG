@@ -2,19 +2,19 @@ package pages;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Reporter;
 
 
 
 public class QueuePage {
 
-	private static Logger logger = LogManager.getLogger();
+	
 	private WebDriver driver;
 	private Helper helper;
 	
@@ -26,8 +26,6 @@ public class QueuePage {
 	WebElement runBtn;
 	@FindBy(xpath = "//a[text()='Practice Questions']")
 	WebElement practiceQuestions;
-	@FindBy(className = "cm-def")
-	WebElement question;
 	@FindBy(id = "output")
 	WebElement output;
 	
@@ -40,31 +38,31 @@ public class QueuePage {
 	
 	
 	public void queueClickLink(String string) {
-		logger.info("Clicking sub module link for Queue");
+		Reporter.log("Clicking sub module link for Queue");
 		WebElement subModule = driver.findElement(By.xpath("//a[text()='" + string + "']"));
 		helper.clickElement(subModule);
 	}
 	
 	public void ClickQueueTryEditor() {
-		logger.info("Clicking Try here button for Queue module");
+		Reporter.log("Clicking Try here button for Queue module");
 		helper.clickTryEditor(tryHereBtn);
 	}
 	
 	public void enterQueuePythonCode(String sheet,String testcase_id) throws IOException {
 		String code = helper.readFromExcel(sheet, testcase_id, "pythonCode");
-		logger.info("Entering python code for Queue module: " + code);
+		Reporter.log("Entering python code for Queue module: " + code);
 		helper.enterPythonCode(code);
 	}
 	
 	public void QueueRunBtn() {
-		logger.info("Clicking Run button for assessment page");
+		Reporter.log("Clicking Run button for assessment page");
 		helper.clickElement(runBtn);
 	}
 	
 	
 	public String readExpectedOutputForQueue(String sheet, String testcase_id) throws IOException {
 		String expected =  helper.readFromExcel(sheet, testcase_id, "Result");
-		logger.info("Expected output from excel: " + expected);
+		Reporter.log("Expected output from excel: " + expected);
 		return expected;
 	}
 	
@@ -73,7 +71,7 @@ public class QueuePage {
 		if (output_Message == null) {
 			return output.getText();
 		}
-		logger.info("Alert message captured in assessment page: " + output_Message);
+		Reporter.log("Alert message captured in assessment page: " + output_Message);
 		return output_Message;
 	}
 }

@@ -2,18 +2,18 @@ package pages;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.testng.Reporter;
 
 
 public class DataStructurePage {
 	
-	private static Logger logger = LogManager.getLogger();
+	
 	private WebDriver driver;
 	private Helper helper;
 	
@@ -35,28 +35,30 @@ public class DataStructurePage {
 	}
 	
 	public void datastructureClickLink(String string) {
-		logger.info("Clicking sub module link for Data Structure-Introduction");
+		Reporter.log("Clicking sub module link for Data Structure-Introduction");
 		WebElement subModule = driver.findElement(By.xpath("//a[text()='" + string + "']"));
 		helper.clickElement(subModule);
 	}
 	
 	public void ClickDataStructureTryEditor() {
-		logger.info("Clicking Try here button for Data Structure-Introduction modules");
+		Reporter.log("Clicking Try here button for Data Structure-Introduction modules");
 		helper.clickTryEditor(tryHereBtn);
 	}
 	
 	public void enterDataStructurePythonCode(String sheet,String testId ) throws IOException {
-		logger.info("Entering Python code for Data Structure-Introduction from Excel sheet: {}, TestCase ID: {}", sheet, testId);
+		Reporter.log("Entering Python code for Data Structure-Introduction from Excel sheet: "
+	            + sheet + ", TestCase ID: " + testId);
 		helper.enterPythonCode(helper.readFromExcel(sheet, testId, "pythonCode"));
 	}
 	
 	public void DataStructureRunBtn() {
-		logger.info("Clicking Run button for assessment page");
+		Reporter.log("Clicking Run button for assessment page");
 		helper.clickElement(runBtn);
 	}
 	
 	public String readExpectedOutputForDataStructure(String sheet, String testcase_id) throws IOException {
-		logger.info("Read expected output for Queue from Excel ({} - {}): {}", sheet, testcase_id);
+		Reporter.log("Reading expected output for Data Structure from Excel Sheet: " 
+		        + sheet + ", TestCase ID: " + testcase_id);
 		return helper.readFromExcel(sheet, testcase_id, "Result");
 	}
 	
