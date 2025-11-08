@@ -11,7 +11,6 @@ import org.testng.Reporter;
 
 public class DriverFactory {
 	private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
-	private static ThreadLocal<String> browserName = new ThreadLocal<>();
 
 	public static void inItBrowser(String browser) {
 		if (browser == null) {
@@ -33,16 +32,6 @@ public class DriverFactory {
 			throw new IllegalArgumentException("Browser instance can not be initialized");
 		}
 
-
-	}
-
-	public static String getBrowser() {
-		String browser = browserName.get();
-
-		if (browser == null) {
-			browser = ConfigReader.getProperty("browser");
-		}
-		return browser;
 	}
 
 	public static WebDriver getDriver() {
@@ -66,11 +55,4 @@ public class DriverFactory {
 		localDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
 	}
 
-	public static String getBrowserName() {
-		return browserName.get();
-	}
-
-	public static void setBrowserName(String browserName) {
-		DriverFactory.browserName.set(browserName);
-	}
 }
