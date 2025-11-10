@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Suite" parallel ="tests" thread-count="2" data-provider-thread-count="5">
-  <test thread-count="5" parallel="classes" name="ChromeTest">
-    <parameter name="browser" value="Chrome"/>
-    <classes>
-      <class name="dsalgo_testng.test.ArrayTest"/>
-      <class name="dsalgo_testng.test.TreeTest"/>
-      <class name="dsalgo_testng.test.LoginTest"/>
-      <class name="dsalgo_testng.test.RegistrationTest"/>
-      <class name="dsalgo_testng.test.HomeTest"/>
-      <class name="dsalgo_testng.test.LinkedListTest"/>
-      <class name="dsalgo_testng.test.StackTest"/>
-      <class name="dsalgo_testng.test.GraphTest"/>
-      <class name="dsalgo_testng.test.DataStructureTest"/>
-      <class name="dsalgo_testng.test.QueueTest"/>
-    </classes>
-  </test> <!-- Test -->
-   <test thread-count="5" parallel="methods" name="EdgeTest">
-    <parameter name="browser" value="Edge"/>
-    <classes>
-      <class name="dsalgo_testng.test.ArrayTest"/>
-      <class name="dsalgo_testng.test.TreeTest"/>
-      <class name="dsalgo_testng.test.LoginTest"/>
-      <class name="dsalgo_testng.test.RegistrationTest"/>
-      <class name="dsalgo_testng.test.HomeTest"/>
-      <class name="dsalgo_testng.test.LinkedListTest"/>
-      <class name="dsalgo_testng.test.StackTest"/>
-      <class name="dsalgo_testng.test.GraphTest"/>
-      <class name="dsalgo_testng.test.DataStructureTest"/>
-      <class name="dsalgo_testng.test.QueueTest"/>
-    </classes>
-  </test> <!-- Test -->
+<suite name="Suite" parallel="tests" thread-count="2"
+	data-provider-thread-count="5">
+	<listeners>
+		<listener class-name="utilities.RetryListener" />
+		<listener class-name="utilities.TestListener" />
+
+	</listeners>
+	<test thread-count="5" parallel="classes" name="ChromeTest">
+		<parameter name="browser" value="Chrome" />
+		<classes>
+			<class name="dsalgo_testng.test.ArrayTest" />
+			<class name="dsalgo_testng.test.TreeTest" />
+			<class name="dsalgo_testng.test.LoginTest" />
+			<class name="dsalgo_testng.test.RegistrationTest" />
+			<class name="dsalgo_testng.test.HomeTest" />
+			<class name="dsalgo_testng.test.LinkedListTest" />
+			<class name="dsalgo_testng.test.StackTest" />
+			<class name="dsalgo_testng.test.GraphTest" />
+			<class name="dsalgo_testng.test.DataStructureTest" />
+			<class name="dsalgo_testng.test.QueueTest" />
+		</classes>
+	</test> <!-- Test -->
+	<test thread-count="5" parallel="methods" name="EdgeTest">
+		<parameter name="browser" value="Edge" />
+		<classes>
+			<class name="dsalgo_testng.test.ArrayTest" />
+			<class name="dsalgo_testng.test.TreeTest" />
+			<class name="dsalgo_testng.test.LoginTest" />
+			<class name="dsalgo_testng.test.RegistrationTest" />
+			<class name="dsalgo_testng.test.HomeTest" />
+			<class name="dsalgo_testng.test.LinkedListTest" />
+			<class name="dsalgo_testng.test.StackTest" />
+			<class name="dsalgo_testng.test.GraphTest" />
+			<class name="dsalgo_testng.test.DataStructureTest" />
+			<class name="dsalgo_testng.test.QueueTest" />
+		</classes>
+	</test> <!-- Test -->
 </suite> <!-- Suite -->

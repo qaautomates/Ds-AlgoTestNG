@@ -1,26 +1,19 @@
 package dsalgo_testng.test;
 
 import java.io.IOException;
+
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
 import baseTest.BaseTest;
-import pages.GraphPage;
 import utilities.ConfigReader;
-import utilities.DriverFactory;
 
 public class GraphTest extends BaseTest {
 
-	private static ThreadLocal<GraphPage> graphPage = new ThreadLocal<>();
-
-	@BeforeMethod
-	public void initialization() {
-		graphPage.set(new GraphPage(DriverFactory.getDriver(), getContext().getHelper()));
-		Reporter.log("Graph Test initialization", true );
-
-	}
+	
 
 	@BeforeMethod(onlyForGroups = "graphBackground")
 	public void graphGetStarted() {
@@ -38,14 +31,14 @@ public class GraphTest extends BaseTest {
 
 	@Test(groups = "loginRequired")
 	public void navigate_Graph_Page_DropDown() {
-		graphPage.get().selectGraphDropDownMenu("Graph");
+		getContext().getGraphPage().selectGraphDropDownMenu("Graph");
 		Assert.assertEquals(getContext().getHelper().getTitle(), "Graph");
 		Reporter.log("Graph page navigated using dropdown", true);
 	}
 
 	@Test(dataProvider = "module_link", groups = {"loginRequired", "graphBackground"})
 	public void navigate_SubModules_Graph(String link, String expected_Title) {
-		graphPage.get().graphClickLink(link);
+		getContext().getGraphPage().graphClickLink(link);
 		Assert.assertEquals(getContext().getHelper().getTitle(), expected_Title);
 		Reporter.log("Navigated to Graph page submodules", true);
 	}
@@ -59,8 +52,8 @@ public class GraphTest extends BaseTest {
 	@Test(dataProvider = "subModule_TryEditor", groups = {"loginRequired", "graphBackground"})
 	public void verify_TryEditor_Graph_SubModule(String link) {
 
-		graphPage.get().graphClickLink(link);
-		graphPage.get().clickGraphTryEditor();
+		getContext().getGraphPage().graphClickLink(link);
+		getContext().getGraphPage().clickGraphTryEditor();
 		Assert.assertEquals(getContext().getHelper().getTitle(), "Assessment");
 		Reporter.log("Navigated to Graph page Tryeditor from submodules", true);
 	}
@@ -74,13 +67,13 @@ public class GraphTest extends BaseTest {
 	@Test(dataProvider = "PythonCode", groups = {"loginRequired", "graphBackground"})
 	public void enter_PythonCode_TryEditor(String testId, String moduleLink) throws IOException {
 
-		graphPage.get().graphClickLink(moduleLink);
-		graphPage.get().clickGraphTryEditor();
+		getContext().getGraphPage().graphClickLink(moduleLink);
+		getContext().getGraphPage().clickGraphTryEditor();
 		String pythonSheetName = ConfigReader.getProperty("pythonSheetName");
-		graphPage.get().enterGraphPythonCode(pythonSheetName, testId);
-		graphPage.get().clickGraphRunBtn();
-		String expected = graphPage.get().readExpectedOutputForGraph(pythonSheetName, testId);
-		String actual = graphPage.get().getActualOutputForGraph();
+		getContext().getGraphPage().enterGraphPythonCode(pythonSheetName, testId);
+		getContext().getGraphPage().clickGraphRunBtn();
+		String expected = getContext().getGraphPage().readExpectedOutputForGraph(pythonSheetName, testId);
+		String actual = getContext().getGraphPage().getActualOutputForGraph();
 		Assert.assertEquals(expected, actual, "Expected and actual output for python code run is not same");
 		Reporter.log("Run Python code for Graph page submodules", true);
 	}
@@ -96,8 +89,8 @@ public class GraphTest extends BaseTest {
 	@Test(dataProvider = "module_link", groups = {"loginRequired", "graphBackground"})
 	public void verify_Navigate_PracticeQns(String link, String expected_Title) {
 
-		graphPage.get().graphClickLink(link);
-		graphPage.get().graphClickLinkpractice("Practice Questions");
+		getContext().getGraphPage().graphClickLink(link);
+		getContext().getGraphPage().graphClickLinkpractice("Practice Questions");
 		Assert.assertEquals(getContext().getHelper().getTitle(), "Practice Questions");
 		Reporter.log("Navigated to Practice question page for Graph submodules", true);
 	}

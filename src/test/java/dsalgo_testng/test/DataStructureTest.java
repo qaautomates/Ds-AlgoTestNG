@@ -9,21 +9,11 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import baseTest.BaseTest;
-
-import pages.DataStructurePage;
 import utilities.ConfigReader;
-import utilities.DriverFactory;
 
 public class DataStructureTest extends BaseTest {
-	private static ThreadLocal<DataStructurePage> datstructurePage = new ThreadLocal<>();
 	
-
-	@BeforeMethod
-	public void initialization() {
-		datstructurePage.set(new DataStructurePage(DriverFactory.getDriver(), getContext().getHelper()));
-		Reporter.log("Data Structure Test initialization");
-
-	}
+	
 	
 	@BeforeMethod(onlyForGroups = "DataStructureBackground")
 	public void DataStructureGetStarted() {
@@ -41,7 +31,7 @@ public class DataStructureTest extends BaseTest {
 	
 	@Test(dataProvider = "click_link", groups = {"loginRequired", "DataStructureBackground"})
 	public void navigate_SubModules_DataStructureIntro(String link, String expected_Title) {
-		datstructurePage.get().datastructureClickLink(link);
+		getContext().getDataStructurePage().datastructureClickLink(link);
 		Assert.assertEquals(link, expected_Title);
 		Reporter.log("Data Structures-Introduction page submodules");
 	}
@@ -53,8 +43,8 @@ public class DataStructureTest extends BaseTest {
 	
 	@Test(dataProvider = "subModule_TryEditor", groups = {"loginRequired", "DataStructureBackground"})
 	public void verify_TryEditor_DataStructureIntro_SubModule(String link) {
-		datstructurePage.get().datastructureClickLink(link);
-		datstructurePage.get().ClickDataStructureTryEditor();
+		getContext().getDataStructurePage().datastructureClickLink(link);
+		getContext().getDataStructurePage().ClickDataStructureTryEditor();
 		Assert.assertEquals(getContext().getHelper().getTitle(), "Assessment");
 		Reporter.log("Navigated to Data Structures-Introduction page Tryeditor from submodules");
 	}
@@ -66,13 +56,13 @@ public class DataStructureTest extends BaseTest {
 	
 	@Test(dataProvider = "PythonCode", groups = {"loginRequired", "DataStructureBackground"})
 	public void enter_PythonCode_TryEditor(String testId, String moduleLink) throws IOException {
-		datstructurePage.get().datastructureClickLink(moduleLink);
-		datstructurePage.get().ClickDataStructureTryEditor();
+		getContext().getDataStructurePage().datastructureClickLink(moduleLink);
+		getContext().getDataStructurePage().ClickDataStructureTryEditor();
 		String pythonSheetName = ConfigReader.getProperty("pythonSheetName");
-		datstructurePage.get().enterDataStructurePythonCode(pythonSheetName, testId);
-		datstructurePage.get().DataStructureRunBtn();
-		String expected = datstructurePage.get().readExpectedOutputForDataStructure(pythonSheetName, testId);
-		String actual = datstructurePage.get().getActualOutputForDataStructure();
+		getContext().getDataStructurePage().enterDataStructurePythonCode(pythonSheetName, testId);
+		getContext().getDataStructurePage().DataStructureRunBtn();
+		String expected = getContext().getDataStructurePage().readExpectedOutputForDataStructure(pythonSheetName, testId);
+		String actual = getContext().getDataStructurePage().getActualOutputForDataStructure();
 		Assert.assertEquals(expected, actual, "Expected and actual output for python code run is not same");
 		Reporter.log("Python code run for Data Structure Introduction page submodules");	
 	}
@@ -86,8 +76,8 @@ public class DataStructureTest extends BaseTest {
 		
 	@Test(dataProvider = "click_link", groups = {"loginRequired", "DataStructureBackground"})
 	public void verify_Navigate_PracticeQns(String link, String expected_Title) {
-		datstructurePage.get().datastructureClickLink(link);
-		datstructurePage.get().datastructureClickLink("Practice Questions");
+		getContext().getDataStructurePage().datastructureClickLink(link);
+		getContext().getDataStructurePage().datastructureClickLink("Practice Questions");
 		Assert.assertEquals(getContext().getHelper().getTitle(),"Practice Questions");
 		Reporter.log("Navigated to Practice question page for Data Structure Introduction submodules");	
 	}

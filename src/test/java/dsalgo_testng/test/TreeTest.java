@@ -1,29 +1,18 @@
 package dsalgo_testng.test;
 
-import org.testng.annotations.Test;
-
 import java.io.IOException;
 
 import org.testng.Assert;
 import org.testng.Reporter;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import baseTest.BaseTest;
-import pages.TreePage;
 import utilities.ConfigReader;
-import utilities.DriverFactory;
 
 public class TreeTest extends BaseTest {
 
-	private static ThreadLocal<TreePage> treePage = new ThreadLocal<>();
-
-	@BeforeMethod
-	public void initialization() {
-		treePage.set(new TreePage(DriverFactory.getDriver(), getContext().getHelper()));
-		Reporter.log("Tree Module Initialization");
-	}
-
+	
 	@Test(groups = "loginRequired")
 	public void naviagte_Tree_DataStructure_getStdLink() {
 		getContext().getHomePage().dataStructuresGetStarted("tree");
@@ -59,7 +48,7 @@ public class TreeTest extends BaseTest {
 	@Test(dataProvider = "subModuleLinks", groups = "loginRequired")
 	public void navigate_SubModules_Tree(String link, String expected_Title) {
 		getContext().getHomePage().dataStructuresGetStarted("tree");
-		treePage.get().treeClickLink(link);
+		getContext().getTreePage().treeClickLink(link);
 		Assert.assertEquals(link, expected_Title);
 		Reporter.log("Verified the Tree sub module link page title");
 
@@ -78,8 +67,8 @@ public class TreeTest extends BaseTest {
 	@Test(dataProvider = "subModule_TryEditor", groups = "loginRequired")
 	public void navigate_TryEditor_TreePage(String link) {
 		getContext().getHomePage().dataStructuresGetStarted("tree");
-		treePage.get().treeClickLink(link);
-		treePage.get().clickTreeTryEditor();
+		getContext().getTreePage().treeClickLink(link);
+		getContext().getTreePage().clickTreeTryEditor();
 		Assert.assertEquals(getContext().getHelper().getTitle(), "Assessment");
 		Reporter.log("User navigated to tree sub module try editor page and verified the title ");
 
@@ -112,13 +101,13 @@ public class TreeTest extends BaseTest {
 	@Test(dataProvider = "PythonCode", groups = "loginRequired")
 	public void enter_PythonCode_TryEditor(String testId, String moduleLink) throws IOException {
 		getContext().getHomePage().dataStructuresGetStarted("tree");
-		treePage.get().treeClickLink(moduleLink);
-		treePage.get().clickTreeTryEditor();
+		getContext().getTreePage().treeClickLink(moduleLink);
+		getContext().getTreePage().clickTreeTryEditor();
 		String pythonSheetName = ConfigReader.getProperty("pythonSheetName");
-		treePage.get().enterTreePythonCode(pythonSheetName, testId);
-		treePage.get().clickTreeRunBtn();
-		String expectResult = treePage.get().readExpectedOutputForTree(pythonSheetName, testId);
-		String ActualResult = treePage.get().getActualOutputForTree();
+		getContext().getTreePage().enterTreePythonCode(pythonSheetName, testId);
+		getContext().getTreePage().clickTreeRunBtn();
+		String expectResult = getContext().getTreePage().readExpectedOutputForTree(pythonSheetName, testId);
+		String ActualResult = getContext().getTreePage().getActualOutputForTree();
 		Assert.assertEquals(ActualResult, expectResult);
 		Reporter.log(
 				"Entered the python code and validated the expected and actual output for all the tree module sub links");
