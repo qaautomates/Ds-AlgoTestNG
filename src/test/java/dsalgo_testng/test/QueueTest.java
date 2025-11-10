@@ -9,20 +9,11 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import baseTest.BaseTest;
-import pages.QueuePage;
 import utilities.ConfigReader;
-import utilities.DriverFactory;
 
 public class QueueTest extends BaseTest {
-	private static ThreadLocal<QueuePage> queuePage = new ThreadLocal<>();
 	
-	@BeforeMethod
-	public void initialization() {
-		queuePage.set(new QueuePage(DriverFactory.getDriver(), getContext().getHelper()));
-		Reporter.log("Queue Test initialization");
 
-	}
-	
 	@BeforeMethod(onlyForGroups = "queueBackground")
 	public void linkedListGetStarted() {
 		getContext().getHomePage().dataStructuresGetStarted("queue");
@@ -46,7 +37,7 @@ public class QueueTest extends BaseTest {
 	
 	@Test(dataProvider = "module_link", groups = {"loginRequired", "queueBackground"})
 	public void navigate_SubModules_Queue(String link, String expected_Title) {
-		queuePage.get().queueClickLink(link);
+		getContext().getQueuePage().queueClickLink(link);
 		Assert.assertEquals(link, expected_Title);
 		Reporter.log("Navigated to Queue page submodules");
 
@@ -62,8 +53,8 @@ public class QueueTest extends BaseTest {
 	
 	@Test(dataProvider = "subModule_TryEditor", groups = {"loginRequired", "queueBackground"})
 	public void verify_TryEditor_Queue_SubModule(String link) {
-		queuePage.get().queueClickLink(link);
-		queuePage.get().ClickQueueTryEditor();
+		getContext().getQueuePage().queueClickLink(link);
+		getContext().getQueuePage().ClickQueueTryEditor();
 		Assert.assertEquals(getContext().getHelper().getTitle(), "Assessment");
 		Reporter.log("Navigated to Queue page Tryeditor from submodules");
 	}
@@ -76,13 +67,13 @@ public class QueueTest extends BaseTest {
 	
 	@Test(dataProvider = "queuePythonCode", groups = {"loginRequired", "queueBackground"})
 	public void enter_PythonCode_TryEditor(String testId, String moduleLink) throws IOException {
-		queuePage.get().queueClickLink(moduleLink);
-		queuePage.get().ClickQueueTryEditor();
+		getContext().getQueuePage().queueClickLink(moduleLink);
+		getContext().getQueuePage().ClickQueueTryEditor();
 		String pythonSheetName = ConfigReader.getProperty("pythonSheetName");
-		queuePage.get().enterQueuePythonCode(pythonSheetName, testId);
-		queuePage.get().QueueRunBtn();
-		String expected = queuePage.get().readExpectedOutputForQueue(pythonSheetName, testId);
-		String actual = queuePage.get().getActualOutputForQueue();
+		getContext().getQueuePage().enterQueuePythonCode(pythonSheetName, testId);
+		getContext().getQueuePage().QueueRunBtn();
+		String expected = getContext().getQueuePage().readExpectedOutputForQueue(pythonSheetName, testId);
+		String actual = getContext().getQueuePage().getActualOutputForQueue();
 		Assert.assertEquals(expected, actual, "Expected and actual output for python code run is not same");
 		Reporter.log("Python code run for Queue page submodules");
 
@@ -99,8 +90,8 @@ public class QueueTest extends BaseTest {
 	
 	@Test(dataProvider = "module_link", groups = {"loginRequired", "queueBackground"})
 	public void verify_Navigate_PracticeQnsPage(String link, String expected_Title) {
-		queuePage.get().queueClickLink(link);
-		queuePage.get().queueClickLink("Practice Questions");
+		getContext().getQueuePage().queueClickLink(link);
+		getContext().getQueuePage().queueClickLink("Practice Questions");
 		Assert.assertEquals(getContext().getHelper().getTitle(), "Practice Questions");
 		Reporter.log("Navigated to Practice question page for Queue submodules");
 

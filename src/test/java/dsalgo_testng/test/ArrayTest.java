@@ -4,23 +4,14 @@ import java.io.IOException;
 
 import org.testng.Assert;
 import org.testng.Reporter;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import baseTest.BaseTest;
-import pages.ArrayPage;
 import utilities.ConfigReader;
-import utilities.DriverFactory;
 
 public class ArrayTest extends BaseTest {
-	private static ThreadLocal<ArrayPage> arrayPage = new ThreadLocal<>();
-
-	@BeforeMethod
-	public void initialization() {
-		arrayPage.set(new ArrayPage(DriverFactory.getDriver(), getContext().getHelper()));
-		Reporter.log("Array Test initialization");
-	}
+	
 
 	@Test(groups = "loginRequired")
 	public void navigate_Array_Page_Link() {
@@ -39,7 +30,7 @@ public class ArrayTest extends BaseTest {
 	@Test(dataProvider = "click_link", groups = "loginRequired")
 	public void navigate_SubModules_Array(String link, String expected_Title) {
 		getContext().getHomePage().dataStructuresGetStarted("array");
-		arrayPage.get().arrayClickLink(link);
+		getContext().getArrayPage().arrayClickLink(link);
 		Assert.assertEquals(link, expected_Title);
 		Reporter.log("Navigated to array page submodules");
 	}
@@ -55,8 +46,8 @@ public class ArrayTest extends BaseTest {
 	@Test(dataProvider = "subModule_TryEditor", groups = "loginRequired")
 	public void verify_TryEditor_Array_SubModule(String link) {
 		getContext().getHomePage().dataStructuresGetStarted("array");
-		arrayPage.get().arrayClickLink(link);
-		arrayPage.get().clickArrayTryEditor();
+		getContext().getArrayPage().arrayClickLink(link);
+		getContext().getArrayPage().clickArrayTryEditor();
 		Assert.assertEquals(getContext().getHelper().getTitle(), "Assessment");
 		Reporter.log("Navigated to Try Editor page for array submodules");
 	}
@@ -70,13 +61,13 @@ public class ArrayTest extends BaseTest {
 	@Test(dataProvider = "PythonCode", groups = "loginRequired")
 	public void enter_PythonCode_TryEditor(String testId, String moduleLink) throws IOException {
 		getContext().getHomePage().dataStructuresGetStarted("array");
-		arrayPage.get().arrayClickLink(moduleLink);
-		arrayPage.get().clickArrayTryEditor();
+		getContext().getArrayPage().arrayClickLink(moduleLink);
+		getContext().getArrayPage().clickArrayTryEditor();
 		String pythonSheetName = ConfigReader.getProperty("pythonSheetName");
-		arrayPage.get().enterArrayPythonCode(pythonSheetName, testId);
-		arrayPage.get().clickArrayRunBtn();
-		String expected = arrayPage.get().readExpectedOutputForArray(pythonSheetName, testId);
-		String actual = arrayPage.get().getActualOutputForArray();
+		getContext().getArrayPage().enterArrayPythonCode(pythonSheetName, testId);
+		getContext().getArrayPage().clickArrayRunBtn();
+		String expected = getContext().getArrayPage().readExpectedOutputForArray(pythonSheetName, testId);
+		String actual = getContext().getArrayPage().getActualOutputForArray();
 		Assert.assertEquals(expected, actual, "Expected and actual output for python code run is not same");
 		Reporter.log("Verified Python code run for array submodules");
 
@@ -96,8 +87,8 @@ public class ArrayTest extends BaseTest {
 	@Test(dataProvider = "click_link", groups = "loginRequired")
 	public void verify_Navigate_PracticeQns(String link, String expected_Title) {
 		getContext().getHomePage().dataStructuresGetStarted("array");
-		arrayPage.get().arrayClickLink(link);
-		arrayPage.get().arrayClickLink("Practice Questions");
+		getContext().getArrayPage().arrayClickLink(link);
+		getContext().getArrayPage().arrayClickLink("Practice Questions");
 		Assert.assertEquals(getContext().getHelper().getTitle(), "Practice Questions");
 		Reporter.log("Navigated to practice questions page for array submodules");
 	}
@@ -105,9 +96,9 @@ public class ArrayTest extends BaseTest {
 	@Test(dataProvider = "PracticeQuestions", groups = "loginRequired")
 	public void verify_PracticeQns_Links(String link, String expected_Question) {
 		getContext().getHomePage().dataStructuresGetStarted("array");
-		arrayPage.get().arrayClickLink("Arrays in Python");
-		arrayPage.get().moveToPracticeQuestionsEditor(link);
-		Assert.assertEquals(arrayPage.get().getAssessmentQuestion(), expected_Question);
+		getContext().getArrayPage().arrayClickLink("Arrays in Python");
+		getContext().getArrayPage().moveToPracticeQuestionsEditor(link);
+		Assert.assertEquals(getContext().getArrayPage().getAssessmentQuestion(), expected_Question);
 		Reporter.log("Verified all practice questions link for array");
 	}
 
@@ -123,13 +114,13 @@ public class ArrayTest extends BaseTest {
 	@Test(dataProvider = "PracticeQuestionsPythonCode", groups = "loginRequired")
 	public void enter_PythonCode_PracticeQns_RunBtn(String Testcase_ID, String question_link) throws IOException {
 		getContext().getHomePage().dataStructuresGetStarted("array");
-		arrayPage.get().arrayClickLink("Arrays in Python");
-		arrayPage.get().moveToPracticeQuestionsEditor(question_link);
+		getContext().getArrayPage().arrayClickLink("Arrays in Python");
+		getContext().getArrayPage().moveToPracticeQuestionsEditor(question_link);
 		String practiceqnsSheet = ConfigReader.getProperty("practiceQnsSheeetName");
-		arrayPage.get().enterArrayPythonCode(practiceqnsSheet, Testcase_ID);
-		arrayPage.get().clickArrayRunBtn();
-		String expected = arrayPage.get().readExpectedOutputForArray(practiceqnsSheet, Testcase_ID);
-		String actual = arrayPage.get().getActualOutputForArray();
+		getContext().getArrayPage().enterArrayPythonCode(practiceqnsSheet, Testcase_ID);
+		getContext().getArrayPage().clickArrayRunBtn();
+		String expected = getContext().getArrayPage().readExpectedOutputForArray(practiceqnsSheet, Testcase_ID);
+		String actual = getContext().getArrayPage().getActualOutputForArray();
 		Assert.assertEquals(expected, actual, "Expected and actual output for python code run is not same");
 		Reporter.log("Verified python code run for array practice questions");
 	}
@@ -149,12 +140,12 @@ public class ArrayTest extends BaseTest {
 	@Test(dataProvider = "PracticeQuestionsPythonCode", groups = "loginRequired")
 	public void enter_PythonCode_PracticeQns_SubmitBtn(String Testcase_ID, String question_link) throws IOException {
 		getContext().getHomePage().dataStructuresGetStarted("array");
-		arrayPage.get().arrayClickLink("Arrays in Python");
-		arrayPage.get().moveToPracticeQuestionsEditor(question_link);
+		getContext().getArrayPage().arrayClickLink("Arrays in Python");
+		getContext().getArrayPage().moveToPracticeQuestionsEditor(question_link);
 		String practiceqnsSheet = ConfigReader.getProperty("practiceQnsSheeetName");
-		arrayPage.get().enterArrayPythonCode(practiceqnsSheet, Testcase_ID);
-		arrayPage.get().clickArraySubmitBtn();
-		Assert.assertEquals(arrayPage.get().getSubmitMesssage(), "Submitted Successfully",
+		getContext().getArrayPage().enterArrayPythonCode(practiceqnsSheet, Testcase_ID);
+		getContext().getArrayPage().clickArraySubmitBtn();
+		Assert.assertEquals(getContext().getArrayPage().getSubmitMesssage(), "Submitted Successfully",
 				"Expected and actual output for python code run is not same");
 		Reporter.log("Verified python code submit for array practice questions");
 	}
