@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import utilities.ConfigReader;
+import utilities.ExcelSheetHandling;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -41,12 +42,12 @@ public class LoginPage {
 		helper.clickElement(signInLink);
 	}
 	
-	public void loginToPortal() {
+	public void loginToPortal(ExcelSheetHandling excelReader) {
 
 		String userNameValue;
 		try {
-			userNameValue = helper.readFromExcel(ConfigReader.getProperty("sheetName"), "TC001", "UserName");
-			String passWordValue = helper.readFromExcel(ConfigReader.getProperty("sheetName"), "TC001", "Password");
+			userNameValue = excelReader.readFromExcel(ConfigReader.getProperty("sheetName"), "TC001", "UserName");
+			String passWordValue = excelReader.readFromExcel(ConfigReader.getProperty("sheetName"), "TC001", "Password");
 			uName.sendKeys(userNameValue);
 			pwd.sendKeys(passWordValue);
 			logInBtn.click();
@@ -72,9 +73,9 @@ public class LoginPage {
 	}
 	
 	
-	public String readLoginCredentials(String sheet, String testcase_id, String key) throws IOException {
+	/*public String readLoginCredentials(String sheet, String testcase_id, String key) throws IOException {
 		return helper.readFromExcel(sheet, testcase_id, key);
-	}
+	}*/
 	
 	public String geterrorMsg() {
 	    String message = "";

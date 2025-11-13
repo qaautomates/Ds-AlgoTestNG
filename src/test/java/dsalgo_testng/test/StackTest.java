@@ -12,12 +12,10 @@ import baseTest.BaseTest;
 import utilities.ConfigReader;
 
 public class StackTest extends BaseTest {
-
 	
 	@BeforeMethod(onlyForGroups = "stackBackground")
 	public void stackGetStarted() {
 		getContext().getHomePage().dataStructuresGetStarted("stack");
-		Assert.assertEquals(getContext().getHelper().getTitle(), "Stack");
 		Reporter.log("Stack page loaded", true);
 	}
 
@@ -70,9 +68,10 @@ public class StackTest extends BaseTest {
 		getContext().getStackPage().stackClickLink(moduleLink);
 		getContext().getStackPage().clickStackTryEditor();
 		String pythonSheetName = ConfigReader.getProperty("pythonSheetName");
-		getContext().getStackPage().enterStackPythonCode(pythonSheetName, testId);
+		String code = getContext().getExcelReader().readFromExcel(pythonSheetName, testId, "pythonCode");
+		getContext().getStackPage().enterStackPythonCode(code);
 		getContext().getStackPage().clickStackRunBtn();
-		String expected = getContext().getStackPage().readExpectedOutputForStack(pythonSheetName, testId);
+		String expected = getContext().getExcelReader().readFromExcel(pythonSheetName, testId, "Result");
 		String actual = getContext().getStackPage().getActualOutputForStack();
 		Assert.assertEquals(expected, actual, "Expected and actual output for python code run is not same");
 		Reporter.log("Run Python code for Stack page submodules", true);

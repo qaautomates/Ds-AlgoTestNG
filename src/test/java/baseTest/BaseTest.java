@@ -12,12 +12,12 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import io.qameta.allure.Allure;
-import pages.BasePage;
+import pages.PageManager;
 import utilities.ConfigReader;
 import utilities.DriverFactory;
 
 public class BaseTest {
-	private static ThreadLocal<BasePage> context = new ThreadLocal<>();
+	private static ThreadLocal<PageManager> context = new ThreadLocal<>();
 
 	@BeforeSuite
 	public static void loadConfigProp() {
@@ -33,7 +33,7 @@ public class BaseTest {
 		DriverFactory.inItBrowser(browser);
 		DriverFactory.setupBrowser();
 		Reporter.log("Base Test SetUp");
-		context.set(new BasePage(DriverFactory.getDriver()));
+		context.set(new PageManager(DriverFactory.getDriver()));
 
 		boolean launchRequired = false;
 		boolean loginRequired = false;
@@ -55,7 +55,7 @@ public class BaseTest {
 			// Perform login if needed
 			if (loginRequired) {
 				getContext().getLoginPage().clickSignIn();
-				getContext().getLoginPage().loginToPortal();
+				getContext().getLoginPage().loginToPortal(getContext().getExcelReader());
 				Reporter.log("Logged in to data structures home page");
 			}
 		}
@@ -63,7 +63,8 @@ public class BaseTest {
         Allure.parameter("Browser", browser);
 	}
 	
-	public BasePage getContext() {
+	
+	public PageManager getContext() {
 	        return context.get();
 	}
 

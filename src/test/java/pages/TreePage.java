@@ -39,8 +39,9 @@ public class TreePage {
 		Reporter.log("try here button is clicked");
 	}
 
-	public void enterTreePythonCode(String sheet, String testId) throws IOException {
-		helper.enterPythonCode(helper.readFromExcel(sheet, testId, "pythonCode"));
+	public void enterTreePythonCode(String code) throws IOException {
+		//helper.enterPythonCode(helper.readFromExcel(sheet, testId, "pythonCode"));
+		helper.enterPythonCode(code);
 		Reporter.log("Python code is entered");
 	}
 
@@ -59,11 +60,11 @@ public class TreePage {
 	}
 	
 
-	public String readExpectedOutputForTree(String sheet, String testcase_id) throws IOException {
+	/*public String readExpectedOutputForTree(String sheet, String testcase_id) throws IOException {
 		Reporter.log("Reading Expected message from the excel sheet or tree");
 
 		return helper.readFromExcel(sheet, testcase_id, "Result");
 
-	}
+	}*/
 
 }

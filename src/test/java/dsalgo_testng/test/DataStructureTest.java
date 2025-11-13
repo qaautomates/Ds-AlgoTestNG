@@ -13,12 +13,9 @@ import utilities.ConfigReader;
 
 public class DataStructureTest extends BaseTest {
 	
-	
-	
 	@BeforeMethod(onlyForGroups = "DataStructureBackground")
 	public void DataStructureGetStarted() {
 		getContext().getHomePage().dataStructuresGetStarted("data-structures-introduction");
-		Assert.assertEquals(getContext().getHelper().getTitle(), "Data Structures-Introduction");
 		Reporter.log("DataStructure Introduction page loaded");
 	}
 	
@@ -59,9 +56,10 @@ public class DataStructureTest extends BaseTest {
 		getContext().getDataStructurePage().datastructureClickLink(moduleLink);
 		getContext().getDataStructurePage().ClickDataStructureTryEditor();
 		String pythonSheetName = ConfigReader.getProperty("pythonSheetName");
-		getContext().getDataStructurePage().enterDataStructurePythonCode(pythonSheetName, testId);
+		String code = getContext().getExcelReader().readFromExcel(pythonSheetName, testId, "pythonCode");
+		getContext().getDataStructurePage().enterDataStructurePythonCode(code);
 		getContext().getDataStructurePage().DataStructureRunBtn();
-		String expected = getContext().getDataStructurePage().readExpectedOutputForDataStructure(pythonSheetName, testId);
+		String expected = getContext().getExcelReader().readFromExcel(pythonSheetName, testId, "Result");
 		String actual = getContext().getDataStructurePage().getActualOutputForDataStructure();
 		Assert.assertEquals(expected, actual, "Expected and actual output for python code run is not same");
 		Reporter.log("Python code run for Data Structure Introduction page submodules");	

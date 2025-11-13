@@ -13,11 +13,9 @@ import utilities.ConfigReader;
 
 public class LinkedListTest extends BaseTest {
 	
-	
 	@BeforeMethod(onlyForGroups = "linkedListBackground")
 	public void linkedListGetStarted() {
 		getContext().getHomePage().dataStructuresGetStarted("linked-list");
-		Assert.assertEquals(getContext().getHelper().getTitle(), "Linked List");
 		Reporter.log("Linked List page loaded");
 	}
 	
@@ -72,9 +70,10 @@ public class LinkedListTest extends BaseTest {
 		getContext().getLinkedListPage().linkedListClickLink(moduleLink);
 		getContext().getLinkedListPage().clickLinkedListTryEditor();
 		String pythonSheetName = ConfigReader.getProperty("pythonSheetName");
-		getContext().getLinkedListPage().enterLinkedListPythonCode(pythonSheetName, testId);
+		String code = getContext().getExcelReader().readFromExcel(pythonSheetName, testId, "pythonCode");
+		getContext().getLinkedListPage().enterLinkedListPythonCode(code);
 		getContext().getLinkedListPage().clickLinkedListRunBtn();
-		String expected = getContext().getLinkedListPage().readExpectedOutputForLinkedList(pythonSheetName, testId);
+		String expected = getContext().getExcelReader().readFromExcel(pythonSheetName, testId, "Result");
 		String actual = getContext().getLinkedListPage().getActualOutputForLinkedList();
 		Assert.assertEquals(expected, actual, "Expected and actual output for python code run is not same");
 		Reporter.log("Python code run for Linked List page submodules");

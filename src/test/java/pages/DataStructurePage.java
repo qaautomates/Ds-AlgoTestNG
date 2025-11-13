@@ -45,10 +45,8 @@ public class DataStructurePage {
 		helper.clickTryEditor(tryHereBtn);
 	}
 	
-	public void enterDataStructurePythonCode(String sheet,String testId ) throws IOException {
-		Reporter.log("Entering Python code for Data Structure-Introduction from Excel sheet: "
-	            + sheet + ", TestCase ID: " + testId);
-		helper.enterPythonCode(helper.readFromExcel(sheet, testId, "pythonCode"));
+	public void enterDataStructurePythonCode(String code ) throws IOException {
+		helper.enterPythonCode(code);
 	}
 	
 	public void DataStructureRunBtn() {
@@ -56,11 +54,11 @@ public class DataStructurePage {
 		helper.clickElement(runBtn);
 	}
 	
-	public String readExpectedOutputForDataStructure(String sheet, String testcase_id) throws IOException {
+	/*public String readExpectedOutputForDataStructure(String sheet, String testcase_id) throws IOException {
 		Reporter.log("Reading expected output for Data Structure from Excel Sheet: " 
 		        + sheet + ", TestCase ID: " + testcase_id);
 		return helper.readFromExcel(sheet, testcase_id, "Result");
-	}
+	}*/
 	
 	public String getActualOutputForDataStructure() {
 		String output_Message = helper.readTryEditorAlertMessage();

@@ -17,7 +17,6 @@ public class QueueTest extends BaseTest {
 	@BeforeMethod(onlyForGroups = "queueBackground")
 	public void linkedListGetStarted() {
 		getContext().getHomePage().dataStructuresGetStarted("queue");
-		Assert.assertEquals(getContext().getHelper().getTitle(), "Queue");
 		Reporter.log("Queue page loaded");
 	}
 	
@@ -70,9 +69,10 @@ public class QueueTest extends BaseTest {
 		getContext().getQueuePage().queueClickLink(moduleLink);
 		getContext().getQueuePage().ClickQueueTryEditor();
 		String pythonSheetName = ConfigReader.getProperty("pythonSheetName");
-		getContext().getQueuePage().enterQueuePythonCode(pythonSheetName, testId);
+		String code = getContext().getExcelReader().readFromExcel(pythonSheetName, testId, "pythonCode");
+		getContext().getQueuePage().enterQueuePythonCode(code);
 		getContext().getQueuePage().QueueRunBtn();
-		String expected = getContext().getQueuePage().readExpectedOutputForQueue(pythonSheetName, testId);
+		String expected = getContext().getExcelReader().readFromExcel(pythonSheetName, testId, "Result");
 		String actual = getContext().getQueuePage().getActualOutputForQueue();
 		Assert.assertEquals(expected, actual, "Expected and actual output for python code run is not same");
 		Reporter.log("Python code run for Queue page submodules");

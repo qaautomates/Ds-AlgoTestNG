@@ -65,13 +65,6 @@ public class Helper {
 		 */
 	}
 
-	public String readFromExcel(String sheet, String testcase_id, String key) throws IOException {
-		ExcelSheetHandling excelReader = new ExcelSheetHandling();
-		HashMap<String, String> code = excelReader.readExcelSheet(sheet, testcase_id);
-		return code.get(key);
-
-	}
-
 	public String readTryEditorAlertMessage() {
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -81,5 +74,6 @@ public class Helper {
 		} catch (Exception e) {
 			return null;
 		}
-	}
+	}	
+
 }

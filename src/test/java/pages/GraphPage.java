@@ -57,8 +57,7 @@ public class GraphPage {
 		helper.clickElement(subModule);
 	}
 
-	public void enterGraphPythonCode(String sheet, String testId) throws IOException {
-		String code = helper.readFromExcel(sheet, testId, "pythonCode");
+	public void enterGraphPythonCode(String code) throws IOException {
 		logger.info("Entering python code for Graph modules: " + code);
 		helper.enterPythonCode(code);
 	}
@@ -68,12 +67,12 @@ public class GraphPage {
 		helper.clickElement(runBtn);
 	}
 
-	public String readExpectedOutputForGraph(String sheet, String testid) throws IOException {
+	/*public String readExpectedOutputForGraph(String sheet, String testid) throws IOException {
 
 		String expected =  helper.readFromExcel(sheet, testid, "Result");
 		logger.info("Expected output from excel: " + expected);
 		return expected;
-	}
+	}*/
 
 	public String getActualOutputForGraph() {
 		String output_Message = helper.readTryEditorAlertMessage();

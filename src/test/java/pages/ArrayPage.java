@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+
 public class ArrayPage {
 	private static Logger logger = LogManager.getLogger();
 	private WebDriver driver;
@@ -28,12 +29,12 @@ public class ArrayPage {
 	WebElement question;
 	@FindBy(id = "output")
 	WebElement output;
+	
 
 	public ArrayPage(WebDriver driver, Helper helper) {
 		this.driver = driver;
 		this.helper = helper;
 		PageFactory.initElements(driver, this);
-
 	}
 
 	public void clickArrayTryEditor() {
@@ -47,8 +48,8 @@ public class ArrayPage {
 		helper.clickElement(subModule);
 	}
 
-	public void enterArrayPythonCode(String sheet, String testId) throws IOException {
-		helper.enterPythonCode(helper.readFromExcel(sheet, testId, "pythonCode"));
+	public void enterArrayPythonCode(String code) throws IOException {
+		helper.enterPythonCode(code);
 	}
 
 	public void clickArrayRunBtn() {
@@ -56,9 +57,9 @@ public class ArrayPage {
 		helper.clickElement(runBtn);
 	}
 
-	public String readExpectedOutputForArray(String sheet, String testcase_id) throws IOException {
-		return helper.readFromExcel(sheet, testcase_id, "Result");
-	}
+	/*public String readExpectedOutputForArray(String sheet, String testcase_id) throws IOException {
+		return excelReader.readFromExcel(sheet, testcase_id, "Result");
+	}*/
 
 	public String getActualOutputForArray() {
 
