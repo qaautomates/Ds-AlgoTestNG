@@ -3,6 +3,7 @@ package utilities;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.HashMap;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,6 +14,10 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ExcelSheetHandling {
 	private static Logger logger = LogManager.getLogger();
@@ -62,7 +67,12 @@ public class ExcelSheetHandling {
 		return testData;
 	}
 	
-		
+	public String readFromExcel(String sheet, String testcase_id, String key) throws IOException {
+		ExcelSheetHandling excelReader = new ExcelSheetHandling();
+		HashMap<String, String> code = excelReader.readExcelSheet(sheet, testcase_id);
+		return code.get(key);
+
+	}
 
 	
 }

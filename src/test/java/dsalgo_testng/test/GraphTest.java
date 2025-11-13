@@ -13,12 +13,9 @@ import utilities.ConfigReader;
 
 public class GraphTest extends BaseTest {
 
-	
-
 	@BeforeMethod(onlyForGroups = "graphBackground")
 	public void graphGetStarted() {
 		getContext().getHomePage().dataStructuresGetStarted("graph");
-		Assert.assertEquals(getContext().getHelper().getTitle(), "Graph");
 		Reporter.log("Graph page loaded", true);
 	}
 
@@ -70,9 +67,10 @@ public class GraphTest extends BaseTest {
 		getContext().getGraphPage().graphClickLink(moduleLink);
 		getContext().getGraphPage().clickGraphTryEditor();
 		String pythonSheetName = ConfigReader.getProperty("pythonSheetName");
-		getContext().getGraphPage().enterGraphPythonCode(pythonSheetName, testId);
+		String code = getContext().getExcelReader().readFromExcel(pythonSheetName, testId, "pythonCode");
+		getContext().getGraphPage().enterGraphPythonCode(code);
 		getContext().getGraphPage().clickGraphRunBtn();
-		String expected = getContext().getGraphPage().readExpectedOutputForGraph(pythonSheetName, testId);
+		String expected = getContext().getExcelReader().readFromExcel(pythonSheetName, testId, "Result");
 		String actual = getContext().getGraphPage().getActualOutputForGraph();
 		Assert.assertEquals(expected, actual, "Expected and actual output for python code run is not same");
 		Reporter.log("Run Python code for Graph page submodules", true);

@@ -64,9 +64,11 @@ public class ArrayTest extends BaseTest {
 		getContext().getArrayPage().arrayClickLink(moduleLink);
 		getContext().getArrayPage().clickArrayTryEditor();
 		String pythonSheetName = ConfigReader.getProperty("pythonSheetName");
-		getContext().getArrayPage().enterArrayPythonCode(pythonSheetName, testId);
+		String code = getContext().getExcelReader().readFromExcel(pythonSheetName, testId, "pythonCode");
+		getContext().getArrayPage().enterArrayPythonCode(code);
 		getContext().getArrayPage().clickArrayRunBtn();
-		String expected = getContext().getArrayPage().readExpectedOutputForArray(pythonSheetName, testId);
+		String expected = getContext().getExcelReader().readFromExcel(pythonSheetName, testId, "Result");
+		//String expected = getContext().getArrayPage().readExpectedOutputForArray(pythonSheetName, testId);
 		String actual = getContext().getArrayPage().getActualOutputForArray();
 		Assert.assertEquals(expected, actual, "Expected and actual output for python code run is not same");
 		Reporter.log("Verified Python code run for array submodules");
@@ -117,9 +119,11 @@ public class ArrayTest extends BaseTest {
 		getContext().getArrayPage().arrayClickLink("Arrays in Python");
 		getContext().getArrayPage().moveToPracticeQuestionsEditor(question_link);
 		String practiceqnsSheet = ConfigReader.getProperty("practiceQnsSheeetName");
-		getContext().getArrayPage().enterArrayPythonCode(practiceqnsSheet, Testcase_ID);
+		String code = getContext().getExcelReader().readFromExcel(practiceqnsSheet, Testcase_ID, "pythonCode");
+		getContext().getArrayPage().enterArrayPythonCode(code);
 		getContext().getArrayPage().clickArrayRunBtn();
-		String expected = getContext().getArrayPage().readExpectedOutputForArray(practiceqnsSheet, Testcase_ID);
+		String expected = getContext().getExcelReader().readFromExcel(practiceqnsSheet, Testcase_ID, "Result");
+		//String expected = getContext().getArrayPage().readExpectedOutputForArray(practiceqnsSheet, Testcase_ID);
 		String actual = getContext().getArrayPage().getActualOutputForArray();
 		Assert.assertEquals(expected, actual, "Expected and actual output for python code run is not same");
 		Reporter.log("Verified python code run for array practice questions");
@@ -143,7 +147,8 @@ public class ArrayTest extends BaseTest {
 		getContext().getArrayPage().arrayClickLink("Arrays in Python");
 		getContext().getArrayPage().moveToPracticeQuestionsEditor(question_link);
 		String practiceqnsSheet = ConfigReader.getProperty("practiceQnsSheeetName");
-		getContext().getArrayPage().enterArrayPythonCode(practiceqnsSheet, Testcase_ID);
+		String code = getContext().getExcelReader().readFromExcel(practiceqnsSheet, Testcase_ID, "pythonCode");
+		getContext().getArrayPage().enterArrayPythonCode(code);
 		getContext().getArrayPage().clickArraySubmitBtn();
 		Assert.assertEquals(getContext().getArrayPage().getSubmitMesssage(), "Submitted Successfully",
 				"Expected and actual output for python code run is not same");

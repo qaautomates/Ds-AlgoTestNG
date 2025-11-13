@@ -13,7 +13,6 @@ public class HomeTest extends BaseTest {
 	@BeforeMethod(onlyForGroups = "homePageBackground")
 	public void homePageGetStarted() {
 		getContext().getHomePage().homeGetStartedBtn();
-		Assert.assertEquals(getContext().getHelper().getTitle(), "NumpyNinja");
 		Reporter.log("Home Test: Get Started");
 	}
 

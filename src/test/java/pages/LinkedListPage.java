@@ -40,8 +40,8 @@ public class LinkedListPage {
 		helper.clickTryEditor(tryHereBtn);
 	}
 	
-	public void enterLinkedListPythonCode(String sheet, String testcase_id) throws IOException {	
-		String code = helper.readFromExcel(sheet, testcase_id, "pythonCode");
+	public void enterLinkedListPythonCode(String code) throws IOException {	
+		//String code = helper.readFromExcel(sheet, testcase_id, "pythonCode");
 		logger.info("Entering python code for Linked List modules: " + code);
 		helper.enterPythonCode(code);
 	}
@@ -51,11 +51,11 @@ public class LinkedListPage {
 		helper.clickElement(runBtn);
 	}
 	
-	public String readExpectedOutputForLinkedList(String sheet, String testcase_id) throws IOException {
+	/*public String readExpectedOutputForLinkedList(String sheet, String testcase_id) throws IOException {
 		String expected =  helper.readFromExcel(sheet, testcase_id, "Result");
 		logger.info("Expected output from excel: " + expected);
 		return expected;
-	}
+	}*/
 	
 	public String getActualOutputForLinkedList() {
 		String output_Message = helper.readTryEditorAlertMessage();

@@ -2,7 +2,9 @@ package pages;
 
 import org.openqa.selenium.WebDriver;
 
-public class BasePage {
+import utilities.ExcelSheetHandling;
+
+public class PageManager {
 
 	WebDriver driver;
 	public Helper helper;
@@ -16,8 +18,9 @@ public class BasePage {
 	public RegisterPage registerPage;
 	public StackPage stackPage;
 	public TreePage treePage;
+	public ExcelSheetHandling excelReader;
 
-	public BasePage(WebDriver driver) {
+	public PageManager(WebDriver driver) {
 		this.driver = driver;
 	}
 
@@ -99,5 +102,11 @@ public class BasePage {
 		}
 		return treePage;
 	}
-
+	
+	public ExcelSheetHandling getExcelReader() {
+		if(excelReader == null) {
+			excelReader = new ExcelSheetHandling();
+		}
+		return excelReader;
+	}
 }

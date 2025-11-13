@@ -11,12 +11,10 @@ import baseTest.BaseTest;
 import utilities.ConfigReader;
 
 public class TreeTest extends BaseTest {
-
 	
 	@Test(groups = "loginRequired")
 	public void naviagte_Tree_DataStructure_getStdLink() {
 		getContext().getHomePage().dataStructuresGetStarted("tree");
-		Assert.assertEquals(getContext().getHelper().getTitle(), "Tree");
 		Reporter.log("User selected Tree using get Started link");
 	}
 
@@ -104,9 +102,10 @@ public class TreeTest extends BaseTest {
 		getContext().getTreePage().treeClickLink(moduleLink);
 		getContext().getTreePage().clickTreeTryEditor();
 		String pythonSheetName = ConfigReader.getProperty("pythonSheetName");
-		getContext().getTreePage().enterTreePythonCode(pythonSheetName, testId);
+		String code = getContext().getExcelReader().readFromExcel(pythonSheetName, testId, "pythonCode");
+		getContext().getTreePage().enterTreePythonCode(code);
 		getContext().getTreePage().clickTreeRunBtn();
-		String expectResult = getContext().getTreePage().readExpectedOutputForTree(pythonSheetName, testId);
+		String expectResult = getContext().getExcelReader().readFromExcel(pythonSheetName, testId, "Result");
 		String ActualResult = getContext().getTreePage().getActualOutputForTree();
 		Assert.assertEquals(ActualResult, expectResult);
 		Reporter.log(

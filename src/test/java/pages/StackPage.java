@@ -41,8 +41,8 @@ public class StackPage {
 		helper.clickTryEditor(tryHereBtn);
 	}
 
-	public void enterStackPythonCode(String sheet, String testId) throws IOException {
-		String code = helper.readFromExcel(sheet, testId, "pythonCode");
+	public void enterStackPythonCode(String code) throws IOException {
+		//String code = helper.readFromExcel(sheet, testId, "pythonCode");
 		logger.info("Entering python code for Stack modules: " + code);
 		helper.enterPythonCode(code);
 	}
@@ -52,12 +52,12 @@ public class StackPage {
 		helper.clickElement(runBtn);
 	}
 
-	public String readExpectedOutputForStack(String sheet, String testid) throws IOException {
+	/*public String readExpectedOutputForStack(String sheet, String testid) throws IOException {
 
 		String expected =  helper.readFromExcel(sheet, testid, "Result");
 		logger.info("Expected output from excel: " + expected);
 		return expected;
-	}
+	} */
 
 	public String getActualOutputForStack() {
 		String output_Message = helper.readTryEditorAlertMessage();

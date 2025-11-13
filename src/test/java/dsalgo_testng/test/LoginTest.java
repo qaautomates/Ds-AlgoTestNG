@@ -17,7 +17,7 @@ public class LoginTest extends BaseTest{
 	
 	@Test(groups = "launchRequired")
 	public void verify_login_valid_credentials() {
-		getContext().getLoginPage().loginToPortal();
+		getContext().getLoginPage().loginToPortal(getContext().getExcelReader());
 		Assert.assertEquals(getContext().getLoginPage().verifyMessage(), "You are logged in");
 		Reporter.log("Logged in using valid credentials");
 	}
@@ -45,7 +45,7 @@ public class LoginTest extends BaseTest{
 	
 	@Test(groups = "launchRequired")
 	public void verify_signout() {
-		getContext().getLoginPage().loginToPortal();
+		getContext().getLoginPage().loginToPortal(getContext().getExcelReader());
 		getContext().getLoginPage().clickSignout();
 		String actualMessage = getContext().getLoginPage().signoutMessage();
 		Assert.assertEquals(actualMessage, "Logged out successfully", "Logout message mismatch!");

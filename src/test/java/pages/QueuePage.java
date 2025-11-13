@@ -48,8 +48,8 @@ public class QueuePage {
 		helper.clickTryEditor(tryHereBtn);
 	}
 	
-	public void enterQueuePythonCode(String sheet,String testcase_id) throws IOException {
-		String code = helper.readFromExcel(sheet, testcase_id, "pythonCode");
+	public void enterQueuePythonCode(String code) throws IOException {
+		//String code = helper.readFromExcel(sheet, testcase_id, "pythonCode");
 		Reporter.log("Entering python code for Queue module: " + code);
 		helper.enterPythonCode(code);
 	}
@@ -60,11 +60,11 @@ public class QueuePage {
 	}
 	
 	
-	public String readExpectedOutputForQueue(String sheet, String testcase_id) throws IOException {
-		String expected =  helper.readFromExcel(sheet, testcase_id, "Result");
+	/*public String readExpectedOutputForQueue(String code) throws IOException {
+		//String expected =  helper.readFromExcel(sheet, testcase_id, "Result");
 		Reporter.log("Expected output from excel: " + expected);
 		return expected;
-	}
+	}*/
 	
 	public String getActualOutputForQueue() {
 		String output_Message = helper.readTryEditorAlertMessage();
